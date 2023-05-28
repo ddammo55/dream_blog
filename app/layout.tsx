@@ -1,4 +1,9 @@
 import './globals.css'
+import Contact from './contact/page';
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+
+
 
 export const metadata = {
   title: 'Create Next App',
@@ -12,7 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className='flex flex-col w-full mx-auto p-8'>
+         <Header />
+            <main className='grow'>{children}</main>
+         <Footer/>
+      </body>
     </html>
   )
 }
