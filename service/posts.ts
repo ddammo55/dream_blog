@@ -26,9 +26,20 @@ export type Post = {
     featured: boolean;
 }
 
+
+/*
+모든포스트 getAllPosts()를 불러온 다음에 post.featured인 경우에만 
+필터해서 데이터를 불러온다.
+*/
 export async function getFeaturedPosts(): Promise<Post[]> {
     return getAllPosts()
     .then((posts) => posts.filter((post) => post.featured));
+}
+
+// featured가 false만 가져오기
+export async function getNonFeaturedPosts(): Promise<Post[]> {
+    return getAllPosts()
+    .then((posts) => posts.filter((post) => !post.featured));
 }
 
 export async function getAllPosts() : Promise<Post[]> {
