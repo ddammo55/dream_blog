@@ -50,15 +50,26 @@ export async function getAllPosts() : Promise<Post[]> {
 
 }
 
-export type PostData = Post & {content: string};
+export type PostData = Post & {
+    content: string;
+    next: Post | null; 
+    prev:Post | null 
+};
 
 export async function getPostData(fileName: string) : Promise<PostData> {
     const filePath = path.join(process.cwd(), 'data', 'posts' , `${fileName}.md`);
-    const metadata = await getAllPosts()
-    .then((posts) => posts.find(post => post.path === fileName));
-    if(!metadata) throw new Error(`${fileName}에 해당하는 포스트를 찾을 수 없습니다.`);
+    const posts = await getAllPosts();
+    const post = posts.find((post) => post.path === fileName);
+    
+    if(!post) throw new Error(`${fileName}에 해당하는 포스트를 찾을 수 없습니다.`);
 
+    //posts.indexOf를 이용해서 찾고자하는 index가 몇번째 인지를 확인한 다음에 
+    //이것을 이용해서 이전포스트와 다음포스트를 가지고 올 수 있다.
+
+     const index = posts.indexOf(post);
+     const next = index > 0 ? posts[index - 1] : null; // 다음 글
+     const prev = index < posts.length ? posts[index + 1] : null; //이전 글
      const content = await readFile(filePath, 'utf-8');
-     return {...metadata, content};
+     return {...post, content, next, prev};
 
 }
