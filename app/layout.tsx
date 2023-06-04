@@ -6,8 +6,14 @@ import Footer from '@/components/Footer'
 
 
 export const metadata = {
-  title: '원호블로그',
-  description: '당신의 꿈을 코딩하는 것을 잊지 마세요',
+  title: {
+    default : process.env.HOME_TITLE,
+    template : '바이클로 블로그 | %s'
+  },
+  description: '풀스택 개발자 바이클로의 블로그',
+  icons : {
+    icon : '/favicon.ico',
+  }
 }
 
 export default function RootLayout({

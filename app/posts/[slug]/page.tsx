@@ -1,8 +1,15 @@
 import AdjacentPostCard from '@/components/AdjacentPostCard';
 import PostContent from '@/components/PostContent';
-import { getPostData } from '@/service/posts';
+import { getFeaturedPosts, getPostData } from '@/service/posts';
 import Image from 'next/image';
 
+export async function generateMetadata({params: {slug}}:Props) {
+    const {title, description} = await getPostData(slug);
+    return {
+        title,
+        description
+    }
+}
 
 type Props = {
     params : {
@@ -31,3 +38,10 @@ export default async function Postpage({params: {slug}}:Props) {
     </article>
 }
 
+//원하는 [slug]에 한해서 미리 페이지를 만들고 싶을 때
+export async function generateStaticParams() {
+    const posts = await getFeaturedPosts();
+    return posts.map((post) => ({
+        slug : post.path,
+    }));
+}
